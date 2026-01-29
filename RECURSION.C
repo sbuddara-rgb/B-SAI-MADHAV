@@ -1,18 +1,33 @@
 #include <stdio.h>
 
-int gcd(int a, int b);
+int binarySearch(int arr[], int low, int high, int key) {
+    int mid;
 
-int main() {
-    int a, b;
+    if (low <= high) {
+        mid = (low + high) / 2;
 
-    scanf("%d %d", &a, &b);
+        if (arr[mid] == key)
+            return mid;             
+        else if (key < arr[mid])
+            return binarySearch(arr, low, mid - 1, key);  
+        else
+            return binarySearch(arr, mid + 1, high, key);
+    }
 
-    printf("GCD = %d", gcd(a, b));
-    return 0;
+    return -1; 
 }
 
-int gcd(int a, int b) {
-    if (b == 0)
-        return a;
-    return gcd(b, a % b);
+int main() {
+    int arr[] = {10, 20, 30, 40, 50, 60};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int key = 50;
+
+    int result = binarySearch(arr, 0, n - 1, key);
+
+    if (result != -1)
+        printf("Element found at index %d\n", result);
+    else
+        printf("Element not found\n");
+
+    return 0;
 }
