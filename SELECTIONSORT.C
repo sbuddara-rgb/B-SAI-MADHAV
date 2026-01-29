@@ -1,26 +1,26 @@
 #include <stdio.h>
 
 int main() {
-    int a[100], n, i, j, min, temp;
-
-    scanf("%d", &n);
-    for (i = 0; i < n; i++)
-        scanf("%d", &a[i]);
+    int arr[] = {64, 25, 12, 22, 11};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int i, j, min, temp;
 
     for (i = 0; i < n - 1; i++) {
-        min = i;
+        min = i; 
+
         for (j = i + 1; j < n; j++) {
-            if (a[j] < a[min])
+            if (arr[j] < arr[min])
                 min = j;
         }
-        if (min != i) {
-            temp = a[i];
-            a[i] = a[min];
-            a[min] = temp;
-        }
+        temp = arr[min];
+        arr[min] = arr[i];
+        arr[i] = temp;
     }
 
+    printf("Sorted array:\n");
     for (i = 0; i < n; i++)
-        printf("%d ", a[i]);
+        printf("%d ", arr[i]);
 
-    return
+    return 0;
+}
+
