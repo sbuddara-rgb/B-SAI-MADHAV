@@ -1,49 +1,60 @@
 #include <stdio.h>
 
-void mergeSort(int a[], int low, int high);
-void merge(int a[], int low, int mid, int high);
+void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    int L[n1], R[n2];  // Temporary arrays
+
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+
+    int i = 0, j = 0, k = left;
+
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    
+    while (i < n1) {
+        arr[k] = L[i];
+        i++; k++;
+    }
+    while (j < n2) {
+        arr[k] = R[j];
+        j++; k++;
+    }
+}
+
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);    
+        mergeSort(arr, mid + 1, right); 
+        merge(arr, left, mid, right);  
+    }
+}
 
 int main() {
-    int a[100], n, i;
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
 
-    scanf("%d", &n);
-    for (i = 0; i < n; i++)
-        scanf("%d", &a[i]);
+    mergeSort(arr, 0, n - 1);
 
-    mergeSort(a, 0, n - 1);
-
-    for (i = 0; i < n; i++)
-        printf("%d ", a[i]);
+    printf("Sorted array:\n");
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
 
     return 0;
-}
-
-void mergeSort(int a[], int low, int high) {
-    if (low < high) {
-        int mid = (low + high) / 2;
-        mergeSort(a, low, mid);
-        mergeSort(a, mid + 1, high);
-        merge(a, low, mid, high);
-    }
-}
-
-void merge(int a[], int low, int mid, int high) {
-    int i = low, j = mid + 1, k = 0;
-    int temp[100];
-
-    while (i <= mid && j <= high) {
-        if (a[i] < a[j])
-            temp[k++] = a[i++];
-        else
-            temp[k++] = a[j++];
-    }
-
-    while (i <= mid)
-        temp[k++] = a[i++];
-
-    while (j <= high)
-        temp[k++] = a[j++];
-
-    for (i = low, k = 0; i <= high; i++, k++)
-        a[i] = temp[k];
 }
